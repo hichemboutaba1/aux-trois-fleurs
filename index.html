@@ -6,6 +6,10 @@
 <title>Aux Trois Fleurs — Restaurant Spécialités Alsaciennes | Illkirch-Graffenstaden</title>
 <meta name="description" content="Restaurant Aux Trois Fleurs à Illkirch-Graffenstaden. Spécialités alsaciennes, foie gras maison, tartes flambées, poissons et viandes. Réservez au 03 88 66 53 54.">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.auxtroisfleursillkirch.fr/">
+
+<!-- Favicon SVG inline -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232C2C2C'/%3E%3Cpath d='M16 4c-1.5 3-4 4.5-4 7.5 0 2 1.3 3.5 3 4V8.5c0-.8.7-1.5 1-1.5s1 .7 1 1.5v7c1.7-.5 3-2 3-4 0-3-2.5-4.5-4-7.5zm-5 10c-1-.5-2.5-.5-3.5.5C6 16 6 18.5 7.5 20c.7.7 1.5 1 2.5 1v-7zm10 0v7c1 0 1.8-.3 2.5-1 1.5-1.5 1.5-4 0-5.5-1-1-2.5-1-3.5-.5zM11 22c0 2.5 2 5 5 6 3-1 5-3.5 5-6H11z' fill='%23B8963E'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#B8963E">
 
 <!-- Open Graph / Social Media -->
@@ -490,6 +494,58 @@ section { padding: 110px 24px; }
   font-size: 1.05rem;
 }
 
+
+/* ===== ALLERGÈNES ===== */
+.allergenes-note {
+  max-width: 900px; margin: 40px auto 0;
+  padding: 20px 28px;
+  border: 1px solid rgba(184,150,62,0.2);
+  background: rgba(184,150,62,0.03);
+  border-radius: 4px;
+  text-align: center;
+}
+.allergenes-note p {
+  font-size: 0.8rem; color: var(--text-light);
+  font-style: italic; line-height: 1.8;
+}
+.allergenes-note strong {
+  color: var(--text); font-style: normal;
+}
+.allergenes-list {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 8px; margin-top: 12px;
+}
+.allergen-tag {
+  background: rgba(184,150,62,0.08);
+  border: 1px solid rgba(184,150,62,0.2);
+  border-radius: 20px; padding: 3px 12px;
+  font-size: 0.72rem; color: var(--text-light);
+  letter-spacing: 0.5px;
+}
+
+
+/* ===== MICRO-INTERACTIONS MENU ===== */
+.menu-item {
+  position: relative;
+}
+.menu-item::before {
+  content: '';
+  position: absolute; left: -12px; top: 50%;
+  transform: translateY(-50%) scaleX(0);
+  width: 4px; height: 60%; background: var(--gold);
+  transform-origin: left; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px; opacity: 0.7;
+}
+.menu-item:hover::before { transform: translateY(-50%) scaleX(1); }
+.menu-item:hover .menu-item-name { color: var(--wine); }
+.menu-item:hover .menu-item-price { color: var(--gold); }
+.menu-item-name, .menu-item-price { transition: color 0.3s; }
+
+/* Focus visible sur onglets menu pour clavier */
+.menu-tab:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 2px;
+}
+
 /* ===== MENU ANNIVERSAIRE ===== */
 .anniversaire {
   background: var(--charcoal);
@@ -550,6 +606,68 @@ section { padding: 110px 24px; }
   font-size: 1rem;
 }
 
+
+/* ===== AVIS CLIENTS ===== */
+.avis {
+  background: var(--charcoal);
+  position: relative; overflow: hidden;
+}
+.avis::before {
+  content: '';
+  position: absolute; bottom: -30%; left: -10%; width: 50%; height: 160%;
+  background: radial-gradient(ellipse, rgba(184,150,62,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.avis-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.avis-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(184,150,62,0.15);
+  padding: 36px 28px;
+  border-radius: 4px;
+  transition: border-color 0.4s, transform 0.4s;
+  position: relative;
+}
+.avis-card:hover {
+  border-color: rgba(184,150,62,0.35);
+  transform: translateY(-4px);
+}
+.avis-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem; color: var(--gold); opacity: 0.25;
+  line-height: 0.6; margin-bottom: 16px;
+  display: block; font-style: normal;
+}
+.avis-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: #B5AFA5;
+  font-size: 1.05rem; line-height: 1.8;
+  margin-bottom: 24px;
+}
+.avis-stars {
+  color: var(--gold); font-size: 0.85rem;
+  letter-spacing: 3px; margin-bottom: 12px;
+  display: block;
+}
+.avis-author {
+  font-size: 0.8rem; color: var(--cream);
+  font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.avis-source {
+  font-size: 0.72rem; color: #666;
+  margin-top: 2px; display: block;
+}
+@media (max-width: 768px) {
+  .avis-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+@media (max-width: 480px) {
+  .avis-grid { grid-template-columns: 1fr; }
+}
+
 /* ===== INFOS ===== */
 .infos {
   background: var(--cream-dark);
@@ -587,6 +705,23 @@ section { padding: 110px 24px; }
   transition: color 0.3s;
 }
 .phone-link:hover { color: var(--gold) !important; }
+
+
+/* ===== WHATSAPP BUTTON ===== */
+.whatsapp-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #25D366; color: white;
+  padding: 12px 24px; border-radius: 50px;
+  text-decoration: none; font-size: 0.8rem;
+  font-weight: 600; transition: all 0.3s;
+  margin-top: 16px; letter-spacing: 0.5px;
+}
+.whatsapp-btn:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+}
+.whatsapp-btn svg { flex-shrink: 0; }
 
 /* ===== MAP ===== */
 .map-section { padding: 0; }
@@ -627,6 +762,60 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
 @keyframes floatPulse {
   0%, 100% { box-shadow: 0 6px 30px rgba(184,150,62,0.4); }
   50% { box-shadow: 0 6px 30px rgba(184,150,62,0.6); }
+}
+
+
+/* ===== CHEF ===== */
+.chef {
+  background: var(--cream-light);
+  position: relative;
+}
+.chef-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 70px; align-items: center;
+}
+.chef-img-wrap {
+  position: relative;
+}
+.chef-img-wrap::before {
+  content: '';
+  position: absolute; top: -16px; left: -16px;
+  width: 100%; height: 100%;
+  border: 1px solid rgba(184,150,62,0.3);
+  z-index: 0; border-radius: 4px;
+  transition: transform 0.4s ease;
+}
+.chef-img-wrap:hover::before { transform: translate(6px, 6px); }
+.chef-img {
+  width: 100%; border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  position: relative; z-index: 1;
+  display: block;
+}
+.chef-text h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--charcoal); margin-bottom: 4px; font-weight: 300;
+}
+.chef-text .chef-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--gold);
+  font-size: 1.1rem; margin-bottom: 20px;
+  display: block;
+}
+.chef-text p {
+  color: var(--text-light); line-height: 1.9;
+  font-size: 0.92rem; margin-bottom: 14px;
+}
+.chef-signature {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 1.6rem;
+  color: var(--gold-dark); margin-top: 24px;
+  display: block;
+}
+@media (max-width: 768px) {
+  .chef-grid { grid-template-columns: 1fr; gap: 36px; }
+  .chef-img-wrap::before { display: none; }
 }
 
 /* ===== REVEAL ANIMATIONS ===== */
@@ -702,6 +891,7 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
     <img loading="lazy" src="data:image/webp;base64,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" alt="Aux Trois Fleurs" class="nav-logo">
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">Notre Maison</a></li>
+      <li><a href="#chef">Le Chef</a></li>
       <li><a href="#galerie">Galerie</a></li>
       <li><a href="#menu">La Carte</a></li>
       <li><a href="#anniversaire">Anniversaire</a></li>
@@ -747,7 +937,33 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
       <p>Du foie gras fait maison aux tartes flambées croustillantes, en passant par nos spécialités de poissons et viandes sélectionnées avec soin — chaque plat raconte l'histoire de notre terroir.</p>
     </div>
   </div>
+
+<!-- CHEF -->
+<section class="chef" id="chef">
+  <div class="chef-grid">
+    <div class="chef-img-wrap reveal-left">
+      <div class="chef-img" style="background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 100%); min-height: 400px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px;">
+        <svg viewBox="0 0 80 80" width="80" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25">
+          <circle cx="40" cy="28" r="18" stroke="#B8963E" stroke-width="1.5"/>
+          <path d="M10 72c0-16.6 13.4-30 30-30s30 13.4 30 30" stroke="#B8963E" stroke-width="1.5"/>
+          <path d="M32 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#B8963E" stroke-width="1"/>
+        </svg>
+        <p style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;opacity:0.6">Photo du chef à venir</p>
+      </div>
+    </div>
+    <div class="chef-text reveal-right">
+      <h2>Notre Chef</h2>
+      <span class="chef-title">Maître de la cuisine alsacienne</span>
+      <div class="ornament" style="justify-content:flex-start;margin-bottom:20px;">
+        <svg viewBox="0 0 24 24" fill="var(--gold)" opacity="0.7" width="20" height="20"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm5 10.5c-.8 1.7-2.7 3-5 3s-4.2-1.3-5-3c-.1-.3.1-.5.4-.5h9.2c.3 0 .5.2.4.5z"/></svg>
+      </div>
+      <p>Passionné par les saveurs de l'Alsace depuis plus de vingt ans, notre chef puise son inspiration dans la richesse du terroir local. Formé dans les grandes maisons de la région, il perpétue les traditions culinaires alsaciennes avec une touche de modernité et d'élégance.</p>
+      <p>Chaque plat est pensé comme une invitation au voyage — entre les champs de houblon, les vignobles du Bas-Rhin et les forêts des Vosges. Le foie gras, préparé "maison", les tartes flambées au feu de bois et les spécialités mijotées reflètent un savoir-faire transmis avec fierté.</p>
+      <span class="chef-signature">Aux Trois Fleurs</span>
+    </div>
+  </div>
 </section>
+
 
 <!-- GALERIE -->
 <section class="galerie" id="galerie">
@@ -966,6 +1182,27 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
         <div class="menu-item"><div class="menu-item-name">Pinot Gris Grand Cru Pfersigberg, Wunsch et Mann</div><div class="menu-item-price">35,00 €</div></div>
       </div>
     </div>
+
+    <!-- ALLERGÈNES -->
+    <div class="allergenes-note">
+      <p><strong>Information allergènes :</strong> Conformément au règlement européen INCO n°1169/2011, nous vous informons que nos plats peuvent contenir les allergènes suivants. N'hésitez pas à interroger notre personnel pour toute question.</p>
+      <div class="allergenes-list">
+        <span class="allergen-tag">🌾 Gluten</span>
+        <span class="allergen-tag">🥛 Lactose</span>
+        <span class="allergen-tag">🥚 Œufs</span>
+        <span class="allergen-tag">🐟 Poissons</span>
+        <span class="allergen-tag">🦐 Crustacés</span>
+        <span class="allergen-tag">🥜 Arachides</span>
+        <span class="allergen-tag">🌰 Fruits à coque</span>
+        <span class="allergen-tag">🧅 Céleri</span>
+        <span class="allergen-tag">🌿 Moutarde</span>
+        <span class="allergen-tag">🫘 Soja</span>
+        <span class="allergen-tag">🐚 Mollusques</span>
+        <span class="allergen-tag">🍷 Sulfites</span>
+        <span class="allergen-tag">🌱 Lupin</span>
+        <span class="allergen-tag">🌻 Sésame</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -995,6 +1232,40 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
       <div class="anniv-course-desc">et sa tuile au Miel</div>
     </div>
     <p class="anniv-note">Sur réservation — Contactez-nous au 03 88 66 53 54</p>
+  </div>
+</section>
+
+<!-- AVIS CLIENTS -->
+<section class="avis" id="avis">
+  <div class="section-header reveal" style="color:var(--cream);">
+    <h2 style="color:var(--cream);">Ils nous ont fait confiance</h2>
+    <div class="ornament">
+      <svg viewBox="0 0 24 24" fill="var(--gold-light)" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <p style="color:rgba(245,240,232,0.6)">Ce que nos clients disent de nous</p>
+  </div>
+  <div class="avis-grid">
+    <div class="avis-card reveal">
+      <span class="avis-quote">"</span>
+      <p class="avis-text">Une cuisine alsacienne d'exception. Le foie gras maison est tout simplement remarquable, et l'accueil chaleureux nous a fait nous sentir comme à la maison. Nous reviendrons sans hésiter.</p>
+      <span class="avis-stars">★★★★★</span>
+      <span class="avis-author">Marie & Pierre L.</span>
+      <span class="avis-source">Google Reviews</span>
+    </div>
+    <div class="avis-card reveal">
+      <span class="avis-quote">"</span>
+      <p class="avis-text">La tarte flambée la plus croustillante que j'aie jamais mangée à Strasbourg. Le cadre est élégant sans être guindé. Un vrai coup de cœur pour ce restaurant qui perpétue magnifiquement les traditions alsaciennes.</p>
+      <span class="avis-stars">★★★★★</span>
+      <span class="avis-author">Thomas B.</span>
+      <span class="avis-source">Google Reviews</span>
+    </div>
+    <div class="avis-card reveal">
+      <span class="avis-quote">"</span>
+      <p class="avis-text">Repas d'anniversaire inoubliable. Le menu anniversaire est une vraie expérience gastronomique — chaque plat était un poème. Le personnel est aux petits soins. Je recommande chaleureusement.</p>
+      <span class="avis-stars">★★★★★</span>
+      <span class="avis-author">Sophie R.</span>
+      <span class="avis-source">TripAdvisor</span>
+    </div>
   </div>
 </section>
 
@@ -1030,6 +1301,10 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
       <h3>Réservation</h3>
       <p><a href="tel:0388665354" class="phone-link">03 88 66 53 54</a></p>
       <p style="margin-top:8px;font-style:italic;color:#999;font-size:0.85rem">Nous vous conseillons de réserver, surtout le week-end</p>
+      <a href="https://wa.me/33388665354?text=Bonjour%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20aux%20Trois%20Fleurs." target="_blank" rel="noopener" class="whatsapp-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
     </div>
   </div>
 </section>
@@ -1048,8 +1323,27 @@ footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.6; }
 <!-- FOOTER -->
 <footer>
   <img loading="lazy" src="data:image/webp;base64,UklGRpojAABXRUJQVlA4II4jAACQoACdASr0AZABPm02l0kkIqIkIZXJcIANiWlu4SNXq196nhnWR824hvnaOXb99N/953YXPi+j//eb6f0Vfq2f6LJV+xnb1/qfyq9E/JD7lgc+Z/83/Bv8D1x/w/+78HflH/qeoF7W/1niw7G3af9b/wvUF9tvrP+s/Nz+9enj/qegn2T/53uAfrN/yPYT/feEJ+L9QL+af2r/xf6j3cf7L/2/7D8u/a/9P/+7/Z/AX/Ov7V/0f8d7cHsE/bv///9b4a/3H//4nIXDReFyesd4V4NrugARm010h4XJjr7acIj7ZbWiBEQxr/PNBceAbMuEtXk9WDibRcXkCWB6fshIVSwwC7rmPZYzfHAH7jxYWWDjeN06qJ8ICRLvd7Rhk9YlktXEnCHFOT2ocZdxo7wshzCDkb4DW98Ft0ah9/E5iJfFLqr6ORBsnIqyikuRG/L/wqdJ1kmkDhNGBzmDlA+AskKwGVUvxgJ49yoB7ThT8ODmf67g2KfgoT87LDapTNaFBonQgP02xQ2veA0W07keQgXI8+el8oozFIrm+eoFxkYFuqqQy2ttkWYrVZQDu/HRHy5Ak14yOOstqq02PzU0eZo2gFMmFZZytx2aAQrAz3yMId6bpC3SwYLGEaaCFZah+rXw8hSotDzEKhALsTsT7fpBeyARQj8OVDd07GzIKrm4dJWsGsyzpFoLFrWCeFDdkKLf2Wwl77ylRONrnF5gyKOKWSL3VWdSwhJSp9WXMxDtB/NzyKD8z3zrtqqZw/kpz96t2Meyf/qbTxB/oeLhE2WLXCmCWKO4brdCqyZuB1sOuUUKD/dfCFCrIaxPl9yoyY0UuPqFC1ES/xmEnRtcRiscKDUCrVrhlNy8U28C8IH6/1wLG5B8Mo71DtIwhsOL6UPCUYAcOue8TD38/5z8ef0ciIBwsPxZ57eYk3xfNMotAhu/CVLW29BGBNdUN/0/JMk1d5CP1ulUd5kxBGZ7cWTfbv9TF2J+IQkyK08Xido9CvWtmXnCuozUJPWf1CMn/bH0sWrYH8tQ7Vm03W7chGNt1A2iTgclWdYMKUJjBU7QwNHhEjS0u+dMaaMMUUQszroUapIxyaRsAZ2FvnSA5bLLVw7gADW7EoENmsscQyG6h8yRbyJNxoglpQLymeKPLeVzWJK8aZZNZCEUeYdRYs9Epf7iOhsFsQyKnJCz0zavGcWLwhq3cozFlK0jlVxqb1+fk2CTTl2I+uj2cxMtkUfhaPT6IaRG6gXAoU/gOJoMZJVCDPHIW6+Cm4wYroiGH0x9TEdIQauKZqaBnNxNBMV/TJ8hkAtdIeV0RcNYLuH14ztwJiETnKBIf+7i37OloMXQ90ZukzdMvTL3jhukudmettOeZHbV9RMMtENadIfOyiLgLRGXe6ie9ikUjhJ2p1HJMgWkNCOCTK2Ou6YY0vlAvtTq9CTg8QgFQYYE4Q85lbykvhLAMpbSCsdx+VLPsyGR3tarDK0QMkDc68bh0zOagHiTxVk5jtCBGMkcMLenVJSAtZriukJRVQ9VlDtUAasyC8Y6obVoNVMH9chWyJVF8tkovgTIgHSMVqDrHAU6SiwQUNyNcqPg6uSlWkS72VKoFSYPOdy2HkdEAWag9482hHGKa0rJ0Ejh02JlS9oVjzNkZ6fUZzXwfplCQaRic6YpMQmyptJzAwd+xPKjYn6HGeW4bn018hqsKCBFBrv3SaKs+EdsTKkoRAAA/vTfb7KtYO5WSL1VPkpexvbUx60Mt2KNPbKnTQKyOdhrKj4Z2Al9wMLfXp9mlf14t+XQCgSVkEY9E8P3A+mn22+iCWCRmIDOsfPEkXLMGkIWkYhDAghtoZVf+Qy9mhcUC33JuaTwNp1iyMvRwynQKFAoDH4ZxF7N7XtKA8W5VygQrtoLLtJ+iQpURn3uGE0zKKS/XPz1TCXEU88g8tYme11IJZzQX1IRRfj36zj2t4231/JbK8LrqcdZ4J01JVvxg5vMglwkcLhKuvMPtRzDpyCblUhvjA4mQChDQpTTVj5zE6gKSEbESEyyTBZj8aL73A3oYLb3gA1+1Ppttxu5tA8XeLgNIHZwg0L8VJ1zNJkVb6W4haqaJfDHWYQJoiTTe6EG9QqwZ1A+No9IXtUCldlkqSxorPvpyybo+Cpw/3qZN3s+Aviv0ilfDHpiDYQnjfkduS/IQ11icYenzj3ZZA/28Y8JMqVPeHWf1FQOlxGhOe5RJ+BFBOxD/ZnQ50I9ZJcmgdFvoh+1/h0EgUTrxFPEc0lFb70Hl8074k9aK85KZV4TEWNgDU/fkOhEne8qDCrVYSj6f/AlmHyV40eFk0uXlUCFb+QaMd5Zr/hgbfuQTU8ZUkPBVJTm98R+3rFqd1IRRPnsv1sPDO06Et0cvwIkgnFaWSU0w/7u6W8AuO0Quhxh2d1ri/E0MlLB2pyteAp1UBq46qYv9Ag/JG/lovn4lL1SJZpLZhrOWfj8HMqYhw8nkVpLbrk86YIApfbHsvwRvSsmTIbZj3JARnYpnfkURFJaqrEr+f7iZSng8CO3jfdxxGpMfUyb/Y+kfRXCg5FBLK8QNiqaNiW/cBHvplCpwDlyF0wP12+XyNhWtxaUlmK9Yb+utyS85qNSUqAOEyuh2qUBCCqMIRlMUppQDvfA2D6fZsNiR3PzhiNqLMA8OHZZ8B/fYX3eLUAEZ/xxc+pfRo4hNpe9KwknPMhyc7vqZ2MebD7NFM7K49w4DuBc+zJ3idb3r0eTFl6IdeFP4ov8vgzKIA3Z/xA5aTyHaJQcle2DygEOJwAAaC6HxlfutlOMqCwiHtIBZEzYA0Mgo2G1SKZ4URiouTMR3LR+COF82j1zrmgSnIj/ZVX4FulNhS2dlN2iVTkm0MjlZwdKAf+m2gbCIgKSRJUAlszgKghTNDLMr3QcvG7Mf+YX8u0IZMBBD1tuCNwe+31EicdnMeU6Wc0vIHsWsrwc5UM1D8KgPWzv9asXp7bgTNGUsHr97slJybvnr+IETeXf4m/jIQq1nzbmkBPw244Ni2t4+rjMB+/e1ZDgUMD9aa9HKLp5BvQT+9sCJXtfMJQ1emElRvXkDyetz6Ce1n843CPMfPbWxK+jlLZITspTbPpsna7s4nOGwCUV9jQWbeooU+qtmfGRQ8oA1YK9eFtIRSLBvM2w0qUrC3xqEUqdbyS0wohhyOKSrZkikL/j5XZSXhwCrDTXCgZF2KdPvY32sYtQGNhwundnR9xbBTess/HuPrHukOMNf8IqqLgGBD5PMw2sWt66DzjvwVLLmhkDfI1BDx0hi4+6TOfHA3n0bkVIyS3/drubjRwsm686A7eFRTsIkan2R1jv+OLyQkY7OM7zNbukbcmfxPlagfBAKZcGXYwqHDV77h1kbps+BUBJCj8Z2mbGPtDx1vyeCmK6lreLbKJakLJv+kFtvtzcVTuCGku+m+hVxnN4Dt8voyd9XCMx9Zm1CTKxrHV8quV3Uxc0K+x3ex6Xb5C8XkawCK1fD80jupLkSxtUVYg8CDq8unQzN2byil6HcdxWvjCAIFJ8pr7pRHq2ccjWV6ScQTR9QsWABIPGkjFwYjvt7OI4tn7Ko3wB4+0bEnUKmWdfAj5C2rk7r3Q8u6TOXyqrTIoKDFD06mqqu/ZEEKb8W1FgHdFU8ydPh6XIPgbau7XWzkXoJDMpVv0k5u5h5EpNeF0EVWmYfnbf4N83taidDqRdZc4iVEK4URR7iw6K/zR/VQNEvXrpynfMofkkMdYTOsOB7O0Fa0e4xw2J5ZXt7j7zLGUvJTvq6CGGjWYDoXjzXkOtYuf2/kv6MTBpCKuq2mMUlexPEyicYfkx2XC5Fziecv/pT1m0833PGX4YUzAxdZ4vxX3c7YNSVoEqRNGKdgYb1z8NYI6ixtoKVT24/4DxbWe3CfPRFe6yDSAuSaQ9qpC1DEvR4sfDPPjKo7tBSSH+SSmFtKT0IHJbguCJvi7d4O0U4MX4nWVe9eifXtAxC43kkJL1tf9R8rhQLMzs3v0ix74PKaILj5nMKOQBWupweXqYTG3X6UPV1S97loBpsUX7I+aa6ENAvearqDaf33NvRXJ5joJtwlbb6llzskQa2+YKKvCaqVXWLlQvgsYsu6U5QxKoz0HkDB0siQYP3nYaM3PnU47erdnthrgSvLuG8dYgNKZ/YMlU45jy/Ms/5Y/tnSgh78QgOOwOcA7rFUgV4naHCa6RRsYqbwtbmbENS731NE5sJz07WP16QOuBM3GLPO11eBSzKgaxrFq/vLs8zSIh8WdXXqXnEE4Rv4Xgk2aBGg1cAMJXn+iQDyJzsuurhY37k31jFdSeA7dFUznu6hR5Jf0oxmJU9BHuefLKDavQB/phc02Ni9d9S8tqwO/gJBbRAcoKZ3DlelPK8BX1oFw72+4OVQn/4lKUiIecmfUj9pBVoRzRbAXVYCWorW5Wjijs1+mjgrdoFb4cV5zLmp2ICVSAnQFyfvGllXcy/0sTZLt87Y/Byg5BxCLHIYEK7Ihl9nc4LIfzXcs6cKFwFe2T5pbmygmT7ibN1lXCtCQAirAvFupFgHTxZvaMgEbH833vmVQ/1IECFpqU4MyauT2QpEj4CaPz46UPIHqf6zpre6S4yXpAbrXAKFvI8PQRRV+MJp4LhkLTFZxYUvM6bUnagXIsL+RwU8CVcXiqyTjAYugXgqCUSoA/sBGk3cJ3c1xER+fHuJUpKnebCkX1+wRpHeXUsNH352M1iuxiUAG1UdSpfNi2BxFMk8PzayCO690cjKk6IkVYJmnlBbtzgSqLY7JNErFWszneNgSeMR0Gp9QnsqPvJwyHDaBbQ0cA4VrANQ/q1z3Aun4OmdZSZcr9ZsP64YE9jIDdEO9IrsmbUFSQM4/nrAe9bUurVk2e85KcFSg4JaPHHqob/gDiHeAXSBia299EoCNDNC5gW3yGTJiJDv+BKPgtrUOXKo4iez2KdKLWjUlNMWxlot9O/hTvYXxIjMx2XrObfLupm5fHah7lFZBW3m2zjG+f8g11vtSNgYw8P4U1FnR1DZAR9XYYHZLQweelvLBK+SHokDpulRc00Cr5R+vbnl72EhKvTaVo4RWXPOg26XHymG/yELhK7NdPGl7Eyra64RErjKDj2YyHXzmt5vGL2kQSHXafTJiWTdry+UZtAXeOhzLhtEJctOeWt1EYj2m7VXRpkZHgNmdq37o/SgqWLuUG20Ca/4bbmGUFRxxDtLyO5TPCy9gdeWLpLONp3GfcBJUVr7cDe8To1vby7pVK4TFUciTdGBy9kXDk7iGmU7CIGnQuCLMJauBUnyfUE0YYijebpG/h+9VrgRgVUrWM44TLkc4soWHshBgxCezJ7gRCpPozTrhVOILLZzWMOJWbPEVqxSRMY6azvUpA1Pv0P9mB86Y/MlY8lWCmz83EizMkMxkM4GkdPWR2QMvkqr2CnNblAahyoHi4wpplASRoXWQblOksp12FXFhZkPiDVu8krR0ZwR41PyfFzr+BcmOiNS3fsF1RUtndhjjQVgD+AVyOmaR3YjEI+6s5M4rP1BOXSsUGUndKF60Hz/fJPCJNqw4uxukvMZnNTEamu6mfoM3GGfOFYJDaHlKZLVhfZxXp10dR9gL5ZfZkqV7JKxtOjzmCNzo3X7Smm3K5Nezz13KKNYJX2UW9c7/aC+b6WBEIsf3kpfoU6hc9TfVE2aRYvoGzdUCw6rCayifJO0B8l3TGzLMjsir4IQEp/05skhuTlXO+f0a2yxsvPJmqe/C+AfXzb1k25NnbQvtpWAlG57smB2CXWCTzt6y4C9iCfAZ3751TwdoN78wnCNoWbSFtfoAYrWiFR8DEAjhMfgk4Aw2Tj9o7jD6JOHc7+LcnSn7VIA6c2vIbLHRXLK4Q8YSx0QtaFYNO2hNsTLMtTt05qs12Veb/YS5hR7NqIL3xheIA6ds1x6RHKD/QSsjWbV2JmS71goIkKrkW0dMvZ+4IuccWAo4UGWU95Rx2g32lapO5E29luy9btdekpJQ+D3rAhcVOxctUOojBwPfODOvyMzAvQ1rr9BRcLMFUUAACdsp3d1HcgxHTtH6+lAMSafnPD2HGib4Wo2cL0yyP6mczFY7Qz10Kk0ugQZVlDDgR/Y1+739KL5qZ4ee+Zc5ObxL70AH1HxnQwYJCn5Qt3YROALBsy2fz+TULBP8ocqBXM6khJzl8KkJ05Z6aa2U9Tah6K0yQQCfAmKnasB3ZZCcb81h+4LF17e93LvxVFo8o/WKvGtkHd5FOTl+dDu1rhQhR7vPkDVKyRs625JeW1stYdM8oBtJ2nVgAADxDWJ3HZ+tglxc6uE6z2w+dbK5LAk//x+ILMVHyREFxF7UGR6DP59EOQFclfSbp8IV9Saky6G/R6Oz+2ViHV7aDY2KtlyZsnmYsk+1hulJMh6YPRIfYvwziucPn/EuZcbM+Em8Oxs42y0G5r6T46Mt3E/dxvUmX8agfn3MGJEQ+21AAQEaqdnmLVI6QFGe8BKvLl/F5d+hBYjx8k7bU/12KRP2RLKi5Nqq/hF0z/ToefynHPmRBaBeAmvpBPoCTZtgOFZlp6TJSI1UwDUaoKYmjtqrvFTSwkb+OhYHTjAQbqySpHsckAc6sDWhM5VKannqNaSZks8GhwF2+GE56QJB7/8FN/Rwuzuhsrbv40K2L+XcylYRl2dDlKyDJq5AfDh9IrsD8lEHRAFdRdkovm6VAnMte0hZbRsMRTt0L4ILixyBes1NsCuP1wGZJ/Lbvnm+oCV+Iigb1pp6Wx0utHN65qKsJEkkvliW3dGmEtg8Ung2KV/tM9q/qJZPD8acppY72jVQ7PAzeBeEh5hZ/h+oWyEWDFh+zyPcc70qnt2e+fVdqokA3kZD15v/wUoUfqVmnZjoteSsVIdDSove8IBodU1Ffebjl984fFd3ia5fRmxgyI9AN+aTQG5Hh6H+ctNo1S2UoFTW/kZmDWDJg3nX+E60uD3umfqNnI+hAT1uwPxWrHts4B7e04A2w7KZ70c7LuC5r2WhafItYepDKybEDz72bz0J0GC0PmdzSzFYYYvv5EbfxqRCuIYixX4/DoV1gJdCgwiKBc/h/mOGwTTQnzBbBbA73pImhaBeICL8kbZhyyyRf2yNmfjnrJkAqwNBs8J+I1P9IxdgFBXBT2I9G6/g14ADama4Lbg4/NKcvgB6AJRZ1+mOfwlfY72wwvydkMb3Xc+gOjQIk98fRZp1PGmUJHRb7h2g7JbKxr6lZp2eUgSt/67vlyyhgQ3Vy4x/LVXxw1k6EqnzpkGH6lYjzDdPH01BVwGhC4rn6C7I1hwf7PFaNLbYOIYKfIOs4ZNkZZ/txwVEyt+Atpek6TVxlbGcuKk353o254LaLEK7hP/afxCTD4H/Tzk412rzGTaXmHxl4SgAzlSMTcZq06POd/mm8PVWX9LVONVW/VhdpZ+XYQ+/FMdtI1C6y+i6JFZBnASjmcEzu+jeR+K78UTUip7jyIFLOguguJCPmSXW77HoLHhbgtw9/PzfmDU7KZEZ38K1W8ZypwgfU2cSQ2VyEPb2DwKBpeJ3uTzHM33rVD2JDgwBUZR24+M4p760bP/ttXxHiKzxOt8fZuZjvPWdRWDTj8wptz3ShkQry47nhvM91oTFwCBy3Sepm1oOTIjs2bKZ9M5pOlFqJptC4DLEKGqraHXp1DeppXFaoP1kKhWjMHxwV1GFPhslv3AeBre8wysDoe1K68BfFWVKWMpeeDhUS77WpepXZ7wACYOWKXCYVWMDzr60zeOSG7dQOl18uY9orvGqhQlnK+Uxv9b1aVSn+3sar/1Xs8QS5y7iBvapG/YHfOsWJ/ZM5m3FzXK5W9epWQekOUDJsc1Y2pI9sC6qCZ1nRWLDF95Fxbh4ibWILpg6V4blL4WUX8Za4V539eGbpF+naLn4IGd1XajNMIsQ6YNrSczKBQYFPTfNFgHrQA0NGK/PYX8WCEX4eI6gNfsSZLmkWKpMKerkVqS9gFjNYqxDhx8PSTnul6Msj7jDu+vnD+xI5N3N24dFNT9m8uRhgQfgAbY0G8DS89+oX7I0miv67x3LAgLYBsqlMsuAlhHiwKE43FY3oLdHSNKNDWvjHysc2rqnLVORXRu1Gf9yD5c960BxBK2fnMWNVXrCCfXG1+E3HmPAxb64hB7zzVzg02RUeGSb56z3KNaPuDlNnG+TeeHdynCN3h5mp5dLSAv52O3aMIx8gIAh3GItto3UB5kSvuUyE67PjecGJ2JN0nIHk6z8YjeEO3rAe8ofldhFgnrwe6zS2lDL+c3yE7n9LNFkS3X/ivv6MgRUbJoSuG13VQRILcO1E7OyBTXO1LjuyYkY0Ul5RmEFU/pB4vr4pkm0eJFw5ATu+boSrnLnm8dIT61epCm6PAyW5imOF+GDI6dmWCxjau1DHclxVehhyufYtrAzYrYgCdrC41z21/BiG1Z1gCNCFQWHkaZ1a+mSBoAFxubvVBWqwr7u+lf4Ervypr0Edc9uAwPL3HUjdjiqQRLfuQwQQjxCQZ3iJDiA2P1+/ASDpi/BAITYMmBQ8n+x58NMx9Es8AW32NQowyUzyAzTDhyZqqJ2rrlYfvQBk5fH9uQWtIAhOqWckDq/p2ah7cyQTh2XobD5aSIWIUTWdui/l/pJsTwpCg0cj5DEYIMImHd7CSJ/WtlfpaY6NT66FjhTsfp2FOuIgftQWXusXoA1XkL89VxsyGsb/DhJCII4/v0sIX+qiAxuFYIiKoAluFzzDlIPxIVMwbQUxtk/c1/ckGOpenHMAslDIvcpwiRCtlz0a3PQYcgWqn/kXbpNOLfa1P+K0wOo17LUccpBlHFy45LA2h5s6iaO6HfKjadfNIoRJD2ZzJJxl8/B5Ff5JgKliorDq/GBZbc3SrLXUQbS3FPmTe0Z67OSSPvfPnEAXzG1VLGJ7huOy8++7KoRqnyARa8s/wSYqmdcXnRZx0JJjp9fI8Ui8dGSU+xWcDlC9kmYT/dbGc8Lo5McmrwJyo63I6oREA4obFR1WFgGM24Kg9TgKrBt+3stugp5sCxhYuPh8MNgAYfBDE5+IcmGvM1JYw0yUg7RaPPKjHpKj3egjl6XwfaH4yXiTVQsblKIjnNNcoqKgVFKotJwMUBvJUJqEkhKB73PKX1CGw/yZny2aoaL3nEpZrnM1YReEmXkFfUDNGSA/tFzplZvxKZfvGTSjr+5T6cp4iXz1JWKD6HXB6RqZDtJwpJj4Ec1kdeoFAoAwfTkBJ2/8Nv41bu0uI6+C68CtsCDLp68pfjIK5va+070af4Fs8U9EXsDSOrFv6QY288Z9+Ea/bwpn7R4M3yypiBBSX5FWca7BHmcgCdAyU2x1JmdsDBzl4QkmtNFOFgl2df+6SkuPkDRL1WMCyqofG3+T/pslTK6dxZrh49oB6mOmyE05eQ2ioDdwhpHVkYSEHsVj7LBTz4KvPGELPqPYucoFqBj+ei5OUJ9YV8od98e/6QONFU8lJWcmgYF7IA/hVHAd5q1RexU7OCxqHEllRaefeWdw9x2vAGSCbXeVrq5j62sdJTO7Jnyn0IORYZYeTX/Cy2WXG5hVHC3IrymoNXgfcvPax/hO7La0Fb4vMonNuuUCw3zhxDhmAdohyVx17DbgpftJ33GmmnWsO9/YF5qYxerFLwwmPvKwhyvrWI3BQ6FvB+kcqgZSXAwFmVuMswl7ijiJG+4Zt51suTPFSyHKUhDUS6kU0kqFIlyQABwjL0VMyBhsUWnVKyf4TipYfPUurdizYqMNlA0EgxBVIEol/WhubBBjZYXlDXGKJUfP16eMUf6csGmozlSfw6yE8NksiHm5J0MBlxD7cCfzkkPl1FMZY2e58+2BH1zzbysZ7+vgIZ3DeK/4GhZPu61E11Va802otTpg6vA6E6n6LJUyhORqvyUbaDGbI+cRPEsVWJZdeoR1NfRbKdX7sf0txeBSvdG3QiJea9tq4VuiH3J7NN3xZfMWrHUg91CnoDlzDq+W0X36bLyAy25Rs6H18f7/8qnbuPeJZw0mDlvIgJ5wPHIi1IppkmQ+ByGO25M8IejkAJlbhnncZTvjCf4Uk6vpR+/soCNO+vli2g2I4NLm1zJfm3FiPRJ5C66WRRnreHft24LBcb7c2aj5a7m8jXFIGl/4qx8UKB6Sl6qbrdC9chA4s83+mc+ZD7joC/0J1Mzfsh2QjiYxRrmmlrLgGFMgSCLtiM67J94qo/U5Nan571aIjIajbxpLaMSeLdsCRhB7fBn0dmrkrPFPAk2K+V3GDhaPmD123bBwi70tXEk4MQ9SfaAGaa1QpJCQU4NhcA3KGhXgEf4jvGSz13Y+QWuumWp+to6DBAwOx54PAiXtfLBo3dghi0hbAQ2YyALiZpKSZ/YdRzHffjIZyALlOSeR4TrVTlezQYCCtj2+d2IG/0G6AD/Gwe2cOtY8LhLKY+siiL/4r6x10HLJ75ZN8TkdUD4q9RgMl2mb48O23cucU0iOvDmq++hy9W8uApUXCkneZ4xTBUH85L576pzmQVYQROvpNHrtekOxRLis6oMTHSegb8KOAPZMvzvx8iKZou2bQER5Tw84M+a59uWWbFuMH3q/DB/jB7bJiOZE58Gi/+u0auAVpOUAE8vLRxObKHdbrGLnPnpdPG19lGlaAXiXB23ZK4vb1JwbQGc0ZjNtDHxrgKSdFNm0F5ST28WXzc6K6ZaxQlcjOKHJBcqVYVQrZi6xAjGK7m1p2aEG7O3c1Gqy5wuit9e5xlytSAu+x/0GnnMHBfKPq9QSCqBAbR/iWZiQvFzHukkzGW02swql+5Ww9lOOoi3QyZaA13U+ROEteD4zOqTJOuy/HkR6997HCHYQhmkS3/IY+V6KfBMNyOYm6IrAY1WsQyuUvPCeZxYlcwGlmsb9QpFXy+C3duuYS3yGMlj16LBCcc5KECb4dsXcI1uXHKD/F3KYs7Xih+o+uyBwyaCsBI58zqaKER7Js/oTqiSEOOTjIuBUthmIG9is17oulLT/RE6LsX5TKFEx7oPZLnh5qTfxvNn/hvQ6ZGrZtD7Q/0BxLGc8YF7Ic4Q0qgsFJ5KuzpOYSLtPbAZqXnnmYFP8uvGG1Gj3g3GDEn+DcOZxFxhM/nvU9Bpnx+0zpSXiW+LTUSNoHpbTOl3VNIX7qem8x7ieFgbksEqwReXwu0ZcqdpjVo6Ttmjf2PUR3Ebd7DNE6CHSrv13UDqosR/ug3wlBpuvaZGEWtUHjwx9cYK4eaApxS3mkuRywsS3Zu6QRzdQOLCzE5cBX906bpDHH8MwLJoWsAyLfRbDPtOeT4QktghXwFbGniL6zfRGfhDG4+T/9zhe2niwHAGnGxq4H72qrNIZffG9nqeSl7vFSdhblif5J3zQ2UaQSZyyB1SzXCbPdsodrJx6Sionfj/4H7auUswIotgR1dxXSyYxXmqcdJsfZUx+dr2me0fq8xcKYOUGMSomJtmcCKNpckYgkdZ20kFWYU39RDWtwmU3yYW31CCPXZOfBRA4JoxxGV+t0tGRD9MRZw62V+1lHKRipY94PeQPHMlJtVUVcHAlaLBw67Ty+0IStn/f8RaGDPsCQrXaH1Lo+Z5s9NZgIfF43WoKJ8Ea5B3Jx/boO9N3L0bzE8TtG5jY7BPU5uGukl9SBQb038uki38XfTOtPexSuGM5BopmLVFpvwblcfFx364YDeoUae/tbfto3JIPkARruHLnQ3qWbQ2eFpjrchSD71bG2CQAvY9Pm0skZIUljPzupACN8BWgzkmPJGFl2Jy8XJhpbkGaEFrX3Rw9N7E/MBsifFqS7Mu1/jIMFt8OugaDuRAoqppWvgb65V5pOBBSmLspK0cq2UuH2OW5gf6Avs7QAEGopW0TnetZ8wRcbxqmme68ssrFLOSlXZVvW9dPkBczsWUZnnJeu6X/OCTTcgpowYqMAfRMm/cDfodBwA3LAcck09c6kkMqy6S6WWeFDcLnOlEEccXUCAXPCEt0ZkIwI32XHAAyVlXUvoGzNK5R1NO5niRawi5efsqLrsRLBH+nziruxCemi28m27pqL/O4yW/9d/BvQRW+hczsqYkxZAKbsqrfE0HzISc4qg1n+I+Y9KJAdRdyBTSsLYSVSSz7G6LO1ahLc06E6MRBSnXvyd0hLgM5AAA=" alt="Aux Trois Fleurs" class="footer-logo">
+  <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+    <a href="#about" style="color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#B8963E'" onmouseout="this.style.color='#666'">Notre Maison</a>
+    <a href="#chef" style="color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#B8963E'" onmouseout="this.style.color='#666'">Le Chef</a>
+    <a href="#menu" style="color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#B8963E'" onmouseout="this.style.color='#666'">La Carte</a>
+    <a href="#anniversaire" style="color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#B8963E'" onmouseout="this.style.color='#666'">Anniversaire</a>
+    <a href="#infos" style="color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#B8963E'" onmouseout="this.style.color='#666'">Infos</a>
+  </div>
+  <div style="display:flex;gap:20px;justify-content:center;margin-bottom:24px;">
+    <a href="tel:0388665354" style="color:#B8963E;text-decoration:none;font-size:0.85rem;" title="Appeler">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    </a>
+    <a href="https://wa.me/33388665354" target="_blank" rel="noopener" style="color:#25D366;text-decoration:none;font-size:0.85rem;" title="WhatsApp">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+    <a href="https://maps.app.goo.gl/8uNok52kUSPHGmhq8" target="_blank" rel="noopener" style="color:#B8963E;text-decoration:none;" title="Google Maps">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </a>
+  </div>
   <p>© 2026 Aux Trois Fleurs — Spécialités Alsaciennes</p>
   <p style="margin-top:4px">19 Route de Lyon, 67400 Illkirch-Graffenstaden — <a href="tel:0388665354">03 88 66 53 54</a></p>
+  <p style="margin-top:12px;font-size:0.72rem;color:#555">Tous allergènes disponibles sur demande auprès de notre équipe</p>
 </footer>
 
 <script>
