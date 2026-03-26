@@ -40,7 +40,7 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
   });
 });
 
-// Lightbox avec navigation prev/next
+// Lightbox avec navigation prev/next, focus trap et restauration du focus
 const lightbox        = document.getElementById('lightbox');
 const lightboxImg     = document.getElementById('lightboxImg');
 const lightboxCaption = document.getElementById('lightboxCaption');
@@ -49,8 +49,14 @@ const lightboxPrev    = document.getElementById('lightboxPrev');
 const lightboxNext    = document.getElementById('lightboxNext');
 const galerieItems    = Array.from(document.querySelectorAll('.galerie-item'));
 let currentIndex      = 0;
+let lightboxOpener    = null; // élément ayant ouvert la lightbox
+
+function getLightboxFocusable() {
+  return Array.from(lightbox.querySelectorAll('button:not([disabled])'));
+}
 
 function openLightbox(index) {
+  lightboxOpener = document.activeElement; // mémorise l'élément déclencheur
   currentIndex = index;
   const item = galerieItems[index];
   const img  = item.querySelector('img');
@@ -67,6 +73,7 @@ function openLightbox(index) {
 function closeLightbox() {
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+  if (lightboxOpener) lightboxOpener.focus(); // restaure le focus
 }
 
 galerieItems.forEach((item, idx) => {
@@ -83,35 +90,55 @@ lightbox.addEventListener('click', (e) => {
 
 document.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('active')) return;
-  if (e.key === 'Escape')      closeLightbox();
+  if (e.key === 'Escape') { closeLightbox(); return; }
   if (e.key === 'ArrowLeft'  && currentIndex > 0) openLightbox(currentIndex - 1);
   if (e.key === 'ArrowRight' && currentIndex < galerieItems.length - 1) openLightbox(currentIndex + 1);
+  // Focus trap : Tab reste dans la lightbox
+  if (e.key === 'Tab') {
+    const focusable = getLightboxFocusable();
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+    }
+  }
 });
 
-// Reveal on scroll with stagger
+// Reveal on scroll with stagger — observer déconnecté quand tout est visible
 const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+let revealCount = 0;
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
       setTimeout(() => {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+        revealCount++;
+        if (revealCount >= revealEls.length) observer.disconnect();
       }, i * 80);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 revealEls.forEach(el => observer.observe(el));
 
-// Subtle parallax on scroll — disabled if prefers-reduced-motion
+// Subtle parallax — requestAnimationFrame pour éviter le jank, désactivé si prefers-reduced-motion
 const parallaxEls = document.querySelectorAll('[data-parallax]');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!prefersReducedMotion) {
-  window.addEventListener('scroll', () => {
+if (!prefersReducedMotion && parallaxEls.length) {
+  let rafParallax = null;
+  function applyParallax() {
     parallaxEls.forEach(el => {
       const speed = parseFloat(el.dataset.parallax);
-      const rect = el.getBoundingClientRect();
+      const rect  = el.getBoundingClientRect();
       const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed;
       el.style.transform = `translateY(${offset}px)`;
     });
+    rafParallax = null;
+  }
+  window.addEventListener('scroll', () => {
+    if (!rafParallax) rafParallax = requestAnimationFrame(applyParallax);
   }, { passive: true });
 }
 
@@ -278,10 +305,86 @@ function clearFieldError(field) {
 
 if (resaForm) {
   // Set min date to today
-  const dateInput = document.getElementById('resa-date');
+  const dateInput   = document.getElementById('resa-date');
+  const serviceInput = document.getElementById('resa-heure');
   if (dateInput) {
     dateInput.min = new Date().toISOString().split('T')[0];
   }
+
+  // Avertissement jours fermés / service indisponible
+  const scheduleForForm = {
+    0: { lunch: true },                      // Dimanche: midi seulement
+    1: null,                                 // Lundi: fermé
+    2: { lunch: true, dinner: true },
+    3: { lunch: true },                      // Mercredi: midi seulement
+    4: { lunch: true, dinner: true },
+    5: { lunch: true, dinner: true },
+    6: { dinner: true },                     // Samedi: soir seulement
+  };
+
+  function checkDateWarning() {
+    if (!dateInput || !dateInput.value) return;
+    const chosen = new Date(dateInput.value + 'T12:00:00');
+    const dow    = chosen.getDay();
+    const daySchedule = isFrenchPublicHoliday(chosen) ? null : scheduleForForm[dow];
+
+    // Réutilise isFrenchHoliday du scope global — on vérifie si accessible
+    function isFrenchPublicHoliday(d) {
+      // jours fériés fixes
+      const m = d.getMonth() + 1, day = d.getDate(), y = d.getFullYear();
+      const fixed = [[1,1],[5,1],[5,8],[7,14],[8,15],[11,1],[11,11],[12,25]];
+      if (fixed.some(([fm,fd]) => m===fm && day===fd)) return true;
+      // Pâques (réutilise l'algorithme déjà présent dans le scope IIFE horaires)
+      function easter(yr) {
+        const a=yr%19,b=Math.floor(yr/100),c=yr%100,d2=Math.floor(b/4),e=b%4,
+          f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d2-g+15)%30,
+          i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,
+          mn=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*mn+114)/31),
+          dy=((h+l-7*mn+114)%31)+1;
+        return new Date(yr,mo-1,dy);
+      }
+      const e = easter(y);
+      const mob = [
+        new Date(e.getFullYear(), e.getMonth(), e.getDate()+1),
+        new Date(e.getFullYear(), e.getMonth(), e.getDate()+39),
+        new Date(e.getFullYear(), e.getMonth(), e.getDate()+50),
+      ];
+      return mob.some(h => h.getFullYear()===y && h.getMonth()+1===m && h.getDate()===day);
+    }
+
+    const warningEl = document.getElementById('resa-date-warning') || (() => {
+      const el = document.createElement('span');
+      el.id = 'resa-date-warning';
+      el.className = 'field-error-msg';
+      el.setAttribute('role', 'alert');
+      dateInput.parentNode.appendChild(el);
+      return el;
+    })();
+
+    if (!daySchedule) {
+      warningEl.textContent = isFrenchPublicHoliday(chosen)
+        ? 'Le restaurant est fermé ce jour férié.'
+        : 'Le restaurant est fermé le lundi. Choisissez un autre jour.';
+      dateInput.classList.add('field-error');
+      return;
+    }
+
+    const svc = serviceInput ? serviceInput.value : '';
+    if (svc === 'midi' && !daySchedule.lunch) {
+      warningEl.textContent = 'Le déjeuner n\'est pas servi ce jour-là (samedi). Choisissez le dîner.';
+      serviceInput.classList.add('field-error');
+    } else if (svc === 'soir' && !daySchedule.dinner) {
+      warningEl.textContent = 'Le dîner n\'est pas servi ce jour-là (dimanche/mercredi). Choisissez le déjeuner.';
+      serviceInput.classList.add('field-error');
+    } else {
+      warningEl.textContent = '';
+      dateInput.classList.remove('field-error');
+      if (serviceInput) serviceInput.classList.remove('field-error');
+    }
+  }
+
+  if (dateInput)    dateInput.addEventListener('change', checkDateWarning);
+  if (serviceInput) serviceInput.addEventListener('change', checkDateWarning);
 
   // Real-time validation on blur
   Object.keys(errorMessages).forEach(id => {
@@ -415,15 +518,31 @@ if (resaForm) {
     setTimeout(() => { if (banner) banner.classList.add('visible'); }, 1500);
   }
 
-  window.acceptRGPD = function() {
-    try { localStorage.setItem('rgpd_maps', 'accepted'); } catch(e) {}
+  function acceptRGPD() {
+    const v = 'accepted';
+    try { localStorage.setItem('rgpd_maps', v); } catch(e) {}
     if (banner) banner.style.display = 'none';
     loadMap();
-  };
+  }
 
-  window.refuseRGPD = function() {
-    try { localStorage.setItem('rgpd_maps', 'refused'); } catch(e) {}
+  function refuseRGPD() {
+    const v = 'refused';
+    try { localStorage.setItem('rgpd_maps', v); } catch(e) {}
     if (banner) { banner.classList.remove('visible'); setTimeout(() => banner.style.display = 'none', 500); }
     showPlaceholder();
-  };
+  }
+
+  // Event listeners — plus d'onclick inline dans le HTML
+  const btnAccept  = document.getElementById('rgpd-btn-accept');
+  const btnRefuse  = document.getElementById('rgpd-btn-refuse');
+  const btnConsent = document.getElementById('btn-map-consent');
+  if (btnAccept)  btnAccept.addEventListener('click', acceptRGPD);
+  if (btnRefuse)  btnRefuse.addEventListener('click', refuseRGPD);
+  if (btnConsent) btnConsent.addEventListener('click', acceptRGPD);
+
+  // Validation localStorage (valeur attendue stricte)
+  const validConsents = ['accepted', 'refused'];
+  if (consent !== null && !validConsents.includes(consent)) {
+    try { localStorage.removeItem('rgpd_maps'); } catch(e) {}
+  }
 })();
