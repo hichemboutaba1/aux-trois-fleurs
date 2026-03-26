@@ -88,6 +88,8 @@ nav.scrolled {
   transition: padding 0.4s ease;
 }
 nav.scrolled .nav-inner { padding: 10px 24px; }
+.nav-logo-link { display: flex; align-items: center; }
+.nav-logo-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 2px; }
 .nav-logo {
   height: 50px;
   transition: all 0.4s ease;
@@ -348,7 +350,20 @@ section { padding: 110px 24px; }
   color: rgba(255,255,255,0.7);
   font-family: 'Cormorant Garamond', serif;
   font-style: italic; font-size: 1.2rem;
+  pointer-events: none; white-space: nowrap;
 }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: rgba(255,255,255,0.6);
+  font-size: 3.5rem; font-weight: 300; line-height: 1;
+  cursor: pointer; padding: 0 20px;
+  transition: color 0.2s;
+  font-family: 'Raleway', sans-serif;
+}
+.lightbox-nav:hover { color: white; }
+.lightbox-nav:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 2px; }
+.lightbox-prev { left: 0; }
+.lightbox-next { right: 0; }
 
 /* ===== MENU ===== */
 .menu { background: var(--cream-light); }

@@ -19,7 +19,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="assets/css/main.css">
 <!-- Open Graph / Social Media -->
-<meta property="og:type" content="restaurant">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Aux Trois Fleurs — Spécialités Alsaciennes">
 <meta property="og:description" content="Cuisine alsacienne authentique à Illkirch-Graffenstaden. Foie gras maison, tartes flambées, spécialités de saison. Réservation au 03 88 66 53 54.">
 <meta property="og:url" content="https://www.auxtroisfleursillkirch.fr/">
@@ -96,13 +96,17 @@
 }
 </script>
 
-<!-- Preload LCP image (hero) -->
-<link rel="preload" as="image" href="assets/images/hero-about.webp" fetchpriority="high">
+<!-- Preload LCP image (hero) — imagesrcset permet au navigateur de précharger la bonne taille -->
+<link rel="preload" as="image" href="assets/images/hero-about.webp"
+  imagesrcset="assets/images/hero-about-480w.webp 480w, assets/images/hero-about-768w.webp 768w, assets/images/hero-about.webp 959w"
+  imagesizes="100vw"
+  fetchpriority="high">
 
-<!-- Google Fonts optimized -->
+<!-- Google Fonts — chargement non-bloquant (media=print trick) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Raleway:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Raleway:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Raleway:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
 </head>
 <body>
 
@@ -124,7 +128,9 @@
 <!-- NAV -->
 <nav id="navbar" aria-label="Navigation principale">
   <div class="nav-inner">
-    <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/logo.webp" alt="Aux Trois Fleurs" class="nav-logo" width="500" height="400">
+    <a href="#hero" class="nav-logo-link" aria-label="Aux Trois Fleurs — haut de page">
+      <img onerror="this.style.opacity='0'" loading="eager" src="assets/images/logo.webp" alt="Aux Trois Fleurs" class="nav-logo" width="500" height="400">
+    </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">Notre Maison</a></li>
       <li><a href="#chef">Le Chef</a></li>
@@ -134,7 +140,7 @@
       <li><a href="#infos">Infos</a></li>
     </ul>
     <a href="tel:0388665354" class="nav-cta">Réserver</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -234,8 +240,10 @@
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visionneuse photo">
   <button class="lightbox-close" id="lightboxClose" aria-label="Fermer la visionneuse">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Photo précédente">&#8249;</button>
   <img src="" alt="" id="lightboxImg">
-  <div class="lightbox-caption" id="lightboxCaption" role="caption"></div>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Photo suivante">&#8250;</button>
+  <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
 <!-- MENU -->
