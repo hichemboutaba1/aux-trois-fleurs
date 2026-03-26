@@ -1,0 +1,37 @@
+{
+  "name": "Aux Trois Fleurs",
+  "short_name": "Trois Fleurs",
+  "description": "Restaurant de spécialités alsaciennes à Illkirch-Graffenstaden",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F0E8",
+  "theme_color": "#B8963E",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "assets/images/logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["food", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Réserver",
+      "url": "/#reservation",
+      "description": "Réserver une table"
+    },
+    {
+      "name": "La Carte",
+      "url": "/#menu",
+      "description": "Voir le menu"
+    }
+  ]
+}
