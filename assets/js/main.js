@@ -101,10 +101,57 @@ if (!prefersReducedMotion) {
 
 // ─────────────────────────────────────────────
 // HORAIRES DYNAMIQUES — Statut ouvert / fermé
+// Inclut les jours fériés français
 // ─────────────────────────────────────────────
 (function() {
-  // Schedule: [lunch_open, lunch_close, dinner_open, dinner_close] or null if closed
-  // Days: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  // Algorithme de Meeus/Jones/Butcher pour le calcul de Pâques
+  function easterDate(year) {
+    const a = year % 19;
+    const b = Math.floor(year / 100);
+    const c = year % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31); // 1=Jan
+    const day   = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day);
+  }
+
+  function isFrenchHoliday(date) {
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1; // 1-based
+    const d = date.getDate();
+
+    // Jours fériés fixes
+    const fixed = [
+      [1,  1],  // Jour de l'An
+      [5,  1],  // Fête du Travail
+      [5,  8],  // Victoire 1945
+      [7,  14], // Fête Nationale
+      [8,  15], // Assomption
+      [11, 1],  // Toussaint
+      [11, 11], // Armistice
+      [12, 25], // Noël
+    ];
+    if (fixed.some(([fm, fd]) => m === fm && d === fd)) return true;
+
+    // Jours fériés mobiles basés sur Pâques
+    const easter = easterDate(y);
+    const movable = [
+      new Date(easter.getFullYear(), easter.getMonth(), easter.getDate() + 1),   // Lundi de Pâques
+      new Date(easter.getFullYear(), easter.getMonth(), easter.getDate() + 39),  // Ascension
+      new Date(easter.getFullYear(), easter.getMonth(), easter.getDate() + 50),  // Lundi de Pentecôte
+    ];
+    return movable.some(h => h.getFullYear() === y && h.getMonth() + 1 === m && h.getDate() === d);
+  }
+
+  // Schedule: Days: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
   const schedule = {
     0: { lunch: [12, 14] },                         // Dimanche
     1: null,                                         // Lundi fermé
@@ -114,23 +161,23 @@ if (!prefersReducedMotion) {
     5: { lunch: [12, 14], dinner: [19, 22] },        // Vendredi
     6: { dinner: [19, 22] },                         // Samedi
   };
-  const dayNames = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  const dayIds   = [6, 0, 1, 2, 3, 4, 5]; // index in .day elements (Mon=0 in HTML)
 
   const badge = document.getElementById('statut-horaires');
   if (!badge) return;
 
   const now = new Date();
-  const day = now.getDay();
+  const day  = now.getDay();
   const hour = now.getHours() + now.getMinutes() / 60;
-  const todaySchedule = schedule[day];
 
-  let isOpen = false;
+  // Fermé les jours fériés
+  const todaySchedule = isFrenchHoliday(now) ? null : schedule[day];
+
+  let isOpen  = false;
   let nextMsg = '';
 
   if (todaySchedule) {
     const { lunch, dinner } = todaySchedule;
-    if (lunch && hour >= lunch[0] && hour < lunch[1]) isOpen = true;
+    if (lunch  && hour >= lunch[0]  && hour < lunch[1])  isOpen = true;
     if (dinner && hour >= dinner[0] && hour < dinner[1]) isOpen = true;
 
     if (!isOpen) {
@@ -138,13 +185,16 @@ if (!prefersReducedMotion) {
       else if (lunch && dinner && hour >= lunch[1] && hour < dinner[0]) nextMsg = `Réouvre à ${dinner[0]}h`;
       else if (dinner && hour < dinner[0]) nextMsg = `Ouvre à ${dinner[0]}h`;
     } else {
-      if (lunch && hour >= lunch[0] && hour < lunch[1]) nextMsg = `Ferme à ${lunch[1]}h`;
+      if (lunch  && hour >= lunch[0]  && hour < lunch[1])  nextMsg = `Ferme à ${lunch[1]}h`;
       if (dinner && hour >= dinner[0] && hour < dinner[1]) nextMsg = `Ferme à ${dinner[1]}h`;
     }
   }
 
-  badge.className = 'statut-badge ' + (isOpen ? 'ouvert' : 'ferme');
-  badge.textContent = isOpen ? `Ouvert · ${nextMsg}` : (nextMsg ? `Fermé · ${nextMsg}` : 'Fermé aujourd\'hui');
+  const holidayMsg = isFrenchHoliday(now) ? 'Fermé — Jour férié' : null;
+  badge.className  = 'statut-badge ' + (isOpen ? 'ouvert' : 'ferme');
+  badge.textContent = isOpen
+    ? `Ouvert · ${nextMsg}`
+    : (holidayMsg || (nextMsg ? `Fermé · ${nextMsg}` : 'Fermé aujourd\'hui'));
 
   // Highlight today's row
   const dayRowIndex = [1,2,3,4,5,6,0][day]; // Mon=0 in HTML order
@@ -153,59 +203,171 @@ if (!prefersReducedMotion) {
 })();
 
 // ─────────────────────────────────────────────
-// FORMULAIRE DE RÉSERVATION
+// GALERIE — Navigation clavier + tabindex
+// ─────────────────────────────────────────────
+document.querySelectorAll('.galerie-item').forEach((item, idx, all) => {
+  item.setAttribute('tabindex', '0');
+  item.setAttribute('role', 'button');
+  item.setAttribute('aria-label', item.dataset.caption || `Photo ${idx + 1}`);
+
+  // Open on Enter or Space
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLightbox(item.querySelector('img'), item.dataset.caption);
+    }
+    // Arrow navigation between gallery items
+    if (e.key === 'ArrowRight' && all[idx + 1]) all[idx + 1].focus();
+    if (e.key === 'ArrowLeft' && all[idx - 1]) all[idx - 1].focus();
+  });
+});
+
+// ─────────────────────────────────────────────
+// FORMULAIRE DE RÉSERVATION — avec validation inline
 // ─────────────────────────────────────────────
 const resaForm = document.getElementById('resa-form');
 const resaSuccess = document.getElementById('resa-success');
+
+// Messages d'erreur en français
+const errorMessages = {
+  'resa-nom':      'Veuillez indiquer votre nom',
+  'resa-prenom':   'Veuillez indiquer votre prénom',
+  'resa-tel':      'Veuillez indiquer un numéro de téléphone valide',
+  'resa-date':     'Veuillez choisir une date',
+  'resa-heure':    'Veuillez choisir un service (déjeuner ou dîner)',
+  'resa-couverts': 'Veuillez indiquer le nombre de personnes',
+};
+
+function showFieldError(field, msg) {
+  field.classList.add('field-error');
+  let err = document.getElementById('err-' + field.id);
+  if (!err) {
+    err = document.createElement('span');
+    err.id = 'err-' + field.id;
+    err.className = 'field-error-msg';
+    err.setAttribute('role', 'alert');
+    field.parentNode.appendChild(err);
+  }
+  err.textContent = msg;
+  field.setAttribute('aria-describedby', err.id);
+  field.setAttribute('aria-invalid', 'true');
+}
+
+function clearFieldError(field) {
+  field.classList.remove('field-error');
+  field.removeAttribute('aria-invalid');
+  const err = document.getElementById('err-' + field.id);
+  if (err) err.textContent = '';
+}
 
 if (resaForm) {
   // Set min date to today
   const dateInput = document.getElementById('resa-date');
   if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+    dateInput.min = new Date().toISOString().split('T')[0];
   }
+
+  // Real-time validation on blur
+  Object.keys(errorMessages).forEach(id => {
+    const field = document.getElementById(id);
+    if (!field) return;
+    field.addEventListener('blur', () => {
+      if (!field.validity.valid || !field.value.trim()) {
+        showFieldError(field, errorMessages[id]);
+      } else {
+        clearFieldError(field);
+      }
+    });
+    field.addEventListener('input', () => {
+      if (field.validity.valid && field.value.trim()) clearFieldError(field);
+    });
+  });
 
   resaForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (!resaForm.checkValidity()) {
-      resaForm.reportValidity();
-      return;
-    }
 
-    // Build mailto link with form data
-    const nom = document.getElementById('resa-nom').value;
-    const prenom = document.getElementById('resa-prenom').value;
-    const tel = document.getElementById('resa-tel').value;
-    const email = document.getElementById('resa-email').value;
-    const date = document.getElementById('resa-date').value;
+    // Validate all required fields
+    let hasError = false;
+    Object.entries(errorMessages).forEach(([id, msg]) => {
+      const field = document.getElementById(id);
+      if (!field) return;
+      if (!field.validity.valid || !field.value.trim()) {
+        showFieldError(field, msg);
+        if (!hasError) { field.focus(); hasError = true; }
+      } else {
+        clearFieldError(field);
+      }
+    });
+    if (hasError) return;
+
+    const nom     = document.getElementById('resa-nom').value.trim();
+    const prenom  = document.getElementById('resa-prenom').value.trim();
+    const tel     = document.getElementById('resa-tel').value.trim();
+    const email   = document.getElementById('resa-email').value.trim();
+    const date    = document.getElementById('resa-date').value;
     const service = document.getElementById('resa-heure').value;
     const couverts = document.getElementById('resa-couverts').value;
     const occasion = document.getElementById('resa-occasion').value;
-    const message = document.getElementById('resa-message').value;
+    const message  = document.getElementById('resa-message').value.trim();
 
-    const body = [
-      `Nom : ${prenom} ${nom}`,
-      `Téléphone : ${tel}`,
-      email ? `E-mail : ${email}` : '',
-      `Date : ${date}`,
-      `Service : ${service === 'midi' ? 'Déjeuner (12h-14h)' : 'Dîner (19h-22h)'}`,
-      `Couverts : ${couverts}`,
-      occasion ? `Occasion : ${occasion}` : '',
-      message ? `Message : ${message}` : '',
-    ].filter(Boolean).join('\n');
+    // Envoi via Formspree (remplacer YOUR_FORM_ID par l'ID Formspree réel)
+    const FORMSPREE_ID = 'YOUR_FORM_ID';
+    const submitBtn = resaForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours…';
 
-    const mailto = `mailto:contact@auxtroisfleursillkirch.fr?subject=${encodeURIComponent(`Demande de réservation — ${prenom} ${nom}`)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    const payload = {
+      nom, prenom, tel, date,
+      service: service === 'midi' ? 'Déjeuner (12h–14h)' : 'Dîner (19h–22h)',
+      couverts,
+      ...(email    && { email }),
+      ...(occasion && { occasion }),
+      ...(message  && { message }),
+      _subject: `Demande de réservation — ${prenom} ${nom}`,
+      _replyto: email || '',
+    };
 
-    // Show success message
-    resaForm.style.display = 'none';
-    resaSuccess.style.display = 'block';
-    resaSuccess.focus();
+    fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(res => {
+        if (res.ok) {
+          resaForm.style.display = 'none';
+          resaSuccess.style.display = 'block';
+          resaSuccess.focus();
+        } else {
+          return res.json().then(data => { throw new Error(data.error || 'Erreur réseau'); });
+        }
+      })
+      .catch(() => {
+        // Fallback mailto si Formspree indisponible
+        const bodyLines = [
+          `Nom : ${prenom} ${nom}`, `Téléphone : ${tel}`,
+          email    ? `E-mail : ${email}`        : '',
+          `Date souhaitée : ${date}`,
+          `Service : ${payload.service}`,
+          `Couverts : ${couverts} personne(s)`,
+          occasion ? `Occasion : ${occasion}`   : '',
+          message  ? `Message : ${message}`     : '',
+        ].filter(Boolean).join('\n');
+        const subject = encodeURIComponent(`Demande de réservation — ${prenom} ${nom}`);
+        window.location.href = `mailto:contact@auxtroisfleursillkirch.fr?subject=${subject}&body=${encodeURIComponent(bodyLines)}`;
+        resaForm.style.display = 'none';
+        resaSuccess.style.display = 'block';
+        resaSuccess.focus();
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Envoyer la demande de réservation';
+      });
   });
 }
+
+
 // ─────────────────────────────────────────────
-// RGPD — Consentement Google Maps
+// RGPD — Consentement Google Maps (avec try/catch localStorage)
 // ─────────────────────────────────────────────
 (function() {
   const banner = document.getElementById('rgpd-banner');
@@ -213,7 +375,7 @@ if (resaForm) {
   const mapPlaceholder = document.getElementById('map-placeholder');
 
   function loadMap() {
-    if (mapIframe && mapIframe.src !== mapIframe.dataset.src) {
+    if (mapIframe && !mapIframe.src) {
       mapIframe.src = mapIframe.dataset.src;
       mapIframe.style.display = 'block';
       if (mapPlaceholder) mapPlaceholder.classList.remove('visible');
@@ -225,7 +387,9 @@ if (resaForm) {
     if (mapIframe) mapIframe.style.display = 'none';
   }
 
-  const consent = localStorage.getItem('rgpd_maps');
+  let consent = null;
+  try { consent = localStorage.getItem('rgpd_maps'); } catch(e) { /* private browsing */ }
+
   if (consent === 'accepted') {
     loadMap();
   } else if (consent === 'refused') {
@@ -236,13 +400,13 @@ if (resaForm) {
   }
 
   window.acceptRGPD = function() {
-    localStorage.setItem('rgpd_maps', 'accepted');
+    try { localStorage.setItem('rgpd_maps', 'accepted'); } catch(e) {}
     if (banner) banner.style.display = 'none';
     loadMap();
   };
 
   window.refuseRGPD = function() {
-    localStorage.setItem('rgpd_maps', 'refused');
+    try { localStorage.setItem('rgpd_maps', 'refused'); } catch(e) {}
     if (banner) { banner.classList.remove('visible'); setTimeout(() => banner.style.display = 'none', 500); }
     showPlaceholder();
   };

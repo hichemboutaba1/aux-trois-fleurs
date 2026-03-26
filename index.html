@@ -185,13 +185,13 @@
           <path d="M10 72c0-16.6 13.4-30 30-30s30 13.4 30 30" stroke="#B8963E" stroke-width="1.5"/>
           <path d="M32 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#B8963E" stroke-width="1"/>
         </svg>
-        <p style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;opacity:0.6">Photo du chef à venir</p>
+        <p class="chef-photo-placeholder">Photo du chef à venir</p>
       </div>
     </div>
     <div class="chef-text reveal-right">
       <h2>Notre Chef</h2>
       <span class="chef-title">Maître de la cuisine alsacienne</span>
-      <div class="ornament" style="justify-content:flex-start;margin-bottom:20px;">
+      <div class="ornament ornament--left">
         <svg viewBox="0 0 24 24" fill="var(--gold)" opacity="0.7" width="20" height="20"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm5 10.5c-.8 1.7-2.7 3-5 3s-4.2-1.3-5-3c-.1-.3.1-.5.4-.5h9.2c.3 0 .5.2.4.5z"/></svg>
       </div>
       <p>Passionné par les saveurs de l'Alsace depuis plus de vingt ans, notre chef puise son inspiration dans la richesse du terroir local. Formé dans les grandes maisons de la région, il perpétue les traditions culinaires alsaciennes avec une touche de modernité et d'élégance.</p>
@@ -213,19 +213,19 @@
   </div>
   <div class="galerie-grid">
     <div class="galerie-item reveal" data-caption="Raviole de Saint Jacques">
-      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-raviole.webp" alt="Raviole de Saint Jacques" width="500" height="362">
+      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-raviole.webp" srcset="assets/images/galerie-raviole-sm.webp 250w, assets/images/galerie-raviole.webp 500w" sizes="(max-width:480px) 250px, 500px" alt="Raviole de Saint Jacques" width="500" height="362">
       <div class="overlay">Raviole de Saint Jacques</div>
     </div>
     <div class="galerie-item reveal" data-caption="Chèvre chaud & salade">
-      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-chevre.webp" alt="Chèvre chaud" width="376" height="500">
+      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-chevre.webp" srcset="assets/images/galerie-chevre-sm.webp 188w, assets/images/galerie-chevre.webp 376w" sizes="(max-width:480px) 188px, 376px" alt="Chèvre chaud" width="376" height="500">
       <div class="overlay">Chèvre chaud & salade</div>
     </div>
     <div class="galerie-item reveal" data-caption="Linguines aux crevettes">
-      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-linguines.webp" alt="Linguines aux crevettes" width="500" height="275">
+      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-linguines.webp" srcset="assets/images/galerie-linguines-sm.webp 250w, assets/images/galerie-linguines.webp 500w" sizes="(max-width:480px) 250px, 500px" alt="Linguines aux crevettes" width="500" height="275">
       <div class="overlay">Linguines aux crevettes</div>
     </div>
     <div class="galerie-item reveal" data-caption="Viande sauce marchand de vin">
-      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-viande.webp" alt="Viande en sauce" width="366" height="500">
+      <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/galerie-viande.webp" srcset="assets/images/galerie-viande-sm.webp 183w, assets/images/galerie-viande.webp 366w" sizes="(max-width:480px) 183px, 366px" alt="Viande en sauce" width="366" height="500">
       <div class="overlay">Viande sauce marchand de vin</div>
     </div>
   </div>
@@ -556,12 +556,12 @@
 
 <!-- AVIS CLIENTS -->
 <section class="avis" id="avis">
-  <div class="section-header reveal" style="color:var(--cream);">
-    <h2 style="color:var(--cream);">Ils nous ont fait confiance</h2>
+  <div class="section-header reveal section-header--light">
+    <h2>Ils nous ont fait confiance</h2>
     <div class="ornament">
       <svg viewBox="0 0 24 24" fill="var(--gold-light)" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     </div>
-    <p style="color:rgba(245,240,232,0.6)">Ce que nos clients disent de nous</p>
+    <p>Ce que nos clients disent de nous</p>
   </div>
   <div class="avis-grid">
     <div class="avis-card reveal">
@@ -613,7 +613,7 @@
       <address>
         <p>19 Route de Lyon<br>67400 Illkirch-Graffenstaden</p>
         <p style="margin-top:12px">
-          <a href="https://maps.app.goo.gl/8uNok52kUSPHGmhq8" target="_blank" rel="noopener" style="color:var(--gold-dark);text-decoration:underline">
+          <a href="https://maps.app.goo.gl/8uNok52kUSPHGmhq8" target="_blank" rel="noopener" class="link-gold">
             Voir sur Google Maps →
           </a>
         </p>
@@ -622,7 +622,7 @@
     <div class="info-block reveal">
       <h3>Réservation</h3>
       <p><a href="tel:0388665354" class="phone-link">03 88 66 53 54</a></p>
-      <p style="margin-top:8px;font-style:italic;color:#999;font-size:0.85rem">Nous vous conseillons de réserver, surtout le week-end</p>
+      <p class="resa-hint">Nous vous conseillons de réserver, surtout le week-end</p>
       <a href="https://wa.me/33388665354?text=Bonjour%2C%20je%20souhaite%20r%C3%A9server%20une%20table%20aux%20Trois%20Fleurs." target="_blank" rel="noopener" class="whatsapp-btn">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         WhatsApp
@@ -638,7 +638,7 @@
     <p>La carte Google Maps est désactivée.<br>Acceptez les cookies pour l'afficher.</p>
     <button class="btn-consent" onclick="acceptRGPD()">Afficher la carte</button>
   </div>
-  <iframe id="map-iframe" src="" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2642.5!2d7.7139!3d48.5283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c7e5e4a7e8c7%3A0x0!2s19+Route+de+Lyon%2C+67400+Illkirch-Graffenstaden!5e0!3m2!1sfr!2sfr!4v1" allowfullscreen loading="lazy" style="display:none;width:100%;height:380px;border:none;filter:grayscale(15%) sepia(8%)"></iframe>
+  <iframe id="map-iframe" src="" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2642.5!2d7.7139!3d48.5283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c7e5e4a7e8c7%3A0x0!2s19+Route+de+Lyon%2C+67400+Illkirch-Graffenstaden!5e0!3m2!1sfr!2sfr!4v1" allowfullscreen loading="lazy" class="map-iframe-el"></iframe>
 </div>
 
 <!-- RGPD BANNER -->
@@ -646,7 +646,7 @@
   <p>
     Nous utilisons Google Maps pour afficher notre localisation. Ce service peut déposer des cookies tiers.
     En cliquant sur "Accepter", vous consentez à leur utilisation conformément à notre
-    <a href="#" onclick="return false">politique de confidentialité</a>.
+    <a href="politique-de-confidentialite.html">politique de confidentialité</a>.
   </p>
   <div class="rgpd-actions">
     <button class="rgpd-btn rgpd-btn-refuse" onclick="refuseRGPD()">Refuser</button>
@@ -665,27 +665,28 @@
 <!-- FOOTER -->
 <footer>
   <img onerror="this.style.opacity='0'" loading="lazy" src="assets/images/logo.webp" alt="Aux Trois Fleurs" class="footer-logo" width="500" height="400">
-  <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+  <div class="footer-nav">
     <a href="#about" class="footer-nav-link">Notre Maison</a>
     <a href="#chef" class="footer-nav-link">Le Chef</a>
     <a href="#menu" class="footer-nav-link">La Carte</a>
     <a href="#anniversaire" class="footer-nav-link">Anniversaire</a>
     <a href="#infos" class="footer-nav-link">Infos</a>
   </div>
-  <div style="display:flex;gap:20px;justify-content:center;margin-bottom:24px;">
-    <a href="tel:0388665354" style="color:#B8963E;text-decoration:none;font-size:0.85rem;" title="Appeler">
+  <div class="footer-icons">
+    <a href="tel:0388665354" class="footer-icon-link footer-icon-link--gold" title="Appeler" aria-label="Appeler le restaurant">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
     </a>
-    <a href="https://wa.me/33388665354" target="_blank" rel="noopener" style="color:#25D366;text-decoration:none;font-size:0.85rem;" title="WhatsApp">
+    <a href="https://wa.me/33388665354" target="_blank" rel="noopener" class="footer-icon-link footer-icon-link--whatsapp" title="WhatsApp" aria-label="Contacter par WhatsApp">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
-    <a href="https://maps.app.goo.gl/8uNok52kUSPHGmhq8" target="_blank" rel="noopener" style="color:#B8963E;text-decoration:none;" title="Google Maps">
+    <a href="https://maps.app.goo.gl/8uNok52kUSPHGmhq8" target="_blank" rel="noopener" class="footer-icon-link footer-icon-link--gold" title="Google Maps" aria-label="Voir sur Google Maps">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
     </a>
   </div>
   <p>© 2026 Aux Trois Fleurs — Spécialités Alsaciennes</p>
-  <p style="margin-top:4px">19 Route de Lyon, 67400 Illkirch-Graffenstaden — <a href="tel:0388665354">03 88 66 53 54</a></p>
-  <p style="margin-top:12px;font-size:0.72rem;color:#555">Tous allergènes disponibles sur demande auprès de notre équipe</p>
+  <p class="footer-address">19 Route de Lyon, 67400 Illkirch-Graffenstaden — <a href="tel:0388665354">03 88 66 53 54</a></p>
+  <p class="footer-legal-note">Tous allergènes disponibles sur demande auprès de notre équipe</p>
+  <p class="footer-legal-note"><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-de-confidentialite.html">Politique de confidentialité</a></p>
 </footer>
 
 <script src="assets/js/main.js" defer></script>
