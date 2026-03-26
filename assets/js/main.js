@@ -204,3 +204,46 @@ if (resaForm) {
     resaSuccess.focus();
   });
 }
+// ─────────────────────────────────────────────
+// RGPD — Consentement Google Maps
+// ─────────────────────────────────────────────
+(function() {
+  const banner = document.getElementById('rgpd-banner');
+  const mapIframe = document.getElementById('map-iframe');
+  const mapPlaceholder = document.getElementById('map-placeholder');
+
+  function loadMap() {
+    if (mapIframe && mapIframe.src !== mapIframe.dataset.src) {
+      mapIframe.src = mapIframe.dataset.src;
+      mapIframe.style.display = 'block';
+      if (mapPlaceholder) mapPlaceholder.classList.remove('visible');
+    }
+  }
+
+  function showPlaceholder() {
+    if (mapPlaceholder) mapPlaceholder.classList.add('visible');
+    if (mapIframe) mapIframe.style.display = 'none';
+  }
+
+  const consent = localStorage.getItem('rgpd_maps');
+  if (consent === 'accepted') {
+    loadMap();
+  } else if (consent === 'refused') {
+    showPlaceholder();
+  } else {
+    showPlaceholder();
+    setTimeout(() => { if (banner) banner.classList.add('visible'); }, 1500);
+  }
+
+  window.acceptRGPD = function() {
+    localStorage.setItem('rgpd_maps', 'accepted');
+    if (banner) banner.style.display = 'none';
+    loadMap();
+  };
+
+  window.refuseRGPD = function() {
+    localStorage.setItem('rgpd_maps', 'refused');
+    if (banner) { banner.classList.remove('visible'); setTimeout(() => banner.style.display = 'none', 500); }
+    showPlaceholder();
+  };
+})();
